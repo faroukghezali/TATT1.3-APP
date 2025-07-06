@@ -37,6 +37,9 @@ ENV/
 # Logs
 *.log
 
+#database sqlite
+*.db
+
 # Miscellaneous
 *.DS_Store
 *.coverage
