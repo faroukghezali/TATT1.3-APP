@@ -21,6 +21,7 @@ from bon import BonCRUDApp
 from database import create_database
 from main import BusCRUDApp
 from product import ProductCRUDApp
+from themes import white_theme
 
 
 class HomePage(QWidget):
@@ -46,7 +47,7 @@ class MainApp(QWidget):
         self.initUi()
 
     def initUi(self):
-        self.setStyleSheet("background-color:#2F2F2F;")
+        # self.setStyleSheet("background-color:#2F2F2F;")
         self.setWindowTitle("TATT BON ET RAPPORT")
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(30, 5, 30, 50)
@@ -102,44 +103,9 @@ class MainApp(QWidget):
         self.stacked_widget.setCurrentWidget(self.home_page)
 
 
-palette = QPalette()
-# Set individual colors
-palette.setColor(QPalette.ColorRole.Window, QColor(53, 53, 53))  # Dark background
-palette.setColor(
-    QPalette.ColorRole.WindowText, QColor(Qt.GlobalColor.white)
-)  # White text
-palette.setColor(QPalette.ColorRole.Button, QColor(53, 53, 53))  # Dark buttons
-palette.setColor(
-    QPalette.ColorRole.ButtonText, QColor(Qt.GlobalColor.white)
-)  # White button text
-palette.setColor(QPalette.ColorRole.Highlight, QColor(142, 45, 197))  # Purple highlight
-palette.setColor(
-    QPalette.ColorRole.HighlightedText, QColor(Qt.GlobalColor.black)
-)  # Black highlighted text
-palette.setColor(
-    QPalette.ColorRole.PlaceholderText, QColor(150, 150, 150)
-)  # Light gray placeholder
-
-palette.setColor(
-    QPalette.ColorRole.AlternateBase, QColor(66, 66, 66)
-)  # Darker alternate background
-palette.setColor(
-    QPalette.ColorRole.Base, QColor(53, 53, 53)
-)  # Base color for text input
-palette.setColor(QPalette.ColorRole.Text, QColor(Qt.GlobalColor.white))  # Text color
-palette.setColor(
-    QPalette.ColorRole.ToolTipBase, QColor(255, 255, 220)
-)  # Tooltip background
-palette.setColor(
-    QPalette.ColorRole.ToolTipText, QColor(Qt.GlobalColor.black)
-)  # Tooltip text color
-palette.setColor(QPalette.ColorRole.Link, QColor(42, 130, 218))  # Link color
-palette.setColor(
-    QPalette.ColorRole.LinkVisited, QColor(85, 26, 139)
-)  # Visited link color
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setPalette(palette)
+    app.setStyleSheet(white_theme)
     window = MainApp()
     window.show()
     sys.exit(app.exec())
