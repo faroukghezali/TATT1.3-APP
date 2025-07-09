@@ -19,6 +19,7 @@ def create_database():
             name TEXT NOT NULL,
             quantity INTEGER NOT NULL,
             price REAL NOT NULL,
+            sku TEXT,
             category_id INTEGER,
             FOREIGN KEY (category_id) REFERENCES category (id)
         )

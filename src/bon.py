@@ -35,6 +35,7 @@ class CreatePage(QWidget):
         self.initUI()
         self.load_database()
         self.load_products()
+        self.load_products()
         self.load_matricule()
         self.load_tp()
         self.load_bon_list()
@@ -58,10 +59,12 @@ class CreatePage(QWidget):
         list_layout = QVBoxLayout()
         self.table_widget = QTableWidget()
         self.table_widget.cellChanged.connect(self.auto_save_on_cell_change)
+        self.table_widget.setStyleSheet("background-color:white;color:black;")
         list_layout.addWidget(self.table_widget)
         right_frame.setLayout(list_layout)
 
         self.completer = QCompleter()
+        self.sku_completer = QCompleter()
         self.matricule_completer = QCompleter()
         self.tp_completer = QCompleter()
         self.bon_completer = QCompleter()
@@ -93,6 +96,11 @@ class CreatePage(QWidget):
         self.product_name.setCompleter(self.completer)
         self.product_name.textChanged.connect(self.on_product_change)
 
+        self.product_sku = QLineEdit(self)
+        self.product_sku.setPlaceholderText("selectioné SKU")
+        self.product_sku.setCompleter(self.sku_completer)
+        self.product_sku.textChanged.connect(self.on_sku_change)
+
         self.product_quantity = QLineEdit(self)
         self.product_quantity.setPlaceholderText("Quantity")
 
@@ -112,6 +120,7 @@ class CreatePage(QWidget):
         layout.addWidget(self.bon_date)
         layout.addWidget(self.tp)
         layout.addWidget(self.matricule)
+        layout.addWidget(self.product_sku)
         layout.addWidget(self.product_name)
         layout.addWidget(self.product_quantity)
         layout.addWidget(self.product_price)
@@ -255,6 +264,12 @@ class CreatePage(QWidget):
         self.conn = sqlite3.connect("main.db")
         self.cursor = self.conn.cursor()
 
+    def load_sku(self):
+        self.cursor.execute("SELECT sku from  product")
+        article = [row[0] for row in self.cursor.fetchall()]
+        print(article)
+        self.sku_completer.setModel(QStringListModel(article))
+
     def load_products(self):
         self.cursor.execute("SELECT name from  product")
         article = [row[0] for row in self.cursor.fetchall()]
@@ -277,6 +292,21 @@ class CreatePage(QWidget):
         bon_number = [row[0] for row in self.cursor.fetchall()]
         print(f"BON NUMBERS {bon_number}")
         self.bon_completer.setModel(QStringListModel(bon_number))
+
+    def on_sku_change(self, text):
+        if text:
+            self.cursor.execute(
+                "SELECT quantity,price,name from product WHERE sku=?", (text,)
+            )
+            result = self.cursor.fetchone()
+            if result:
+                self.product_quantity.setText(str(result[0]))
+                self.product_price.setText(str(result[1]))
+                self.product_name.setText(str(result[2]))
+            else:
+                self.product_quantity.clear()
+                self.product_price.clear()
+                self.product_name.clear()
 
     def on_product_change(self, text):
         if text:
@@ -332,6 +362,8 @@ class BonCRUDApp(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    style = app.style()
+    print("Standard palette:", style.standardPalette().color(QPalette.Window).name())
     window = BonCRUDApp()
     window.resize(400, 300)
     window.show()

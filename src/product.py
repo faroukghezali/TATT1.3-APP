@@ -207,6 +207,10 @@ class CreateProductPage(QWidget):
         self.price_input.setPlaceholderText("Price")
         layout.addWidget(self.price_input)
 
+        self.sku_input = QLineEdit(self)
+        self.sku_input.setPlaceholderText("Product SKU")
+        layout.addWidget(self.sku_input)
+
         self.category_combo = QComboBox(self)
         layout.addWidget(self.category_combo)
 
@@ -231,14 +235,14 @@ class CreateProductPage(QWidget):
         name = self.name_input.text()
         quantity = self.quantity_input.text()
         price = self.price_input.text()
+        sku = self.sku_input.text()
         category_id = self.category_combo.currentData()
-        print(name, int(quantity), float(price), category_id)
 
         conn = sqlite3.connect("main.db")
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO product (name, quantity, price, category_id) VALUES (?, ?, ?, ?)",
-            (name, int(quantity), float(price), category_id),
+            "INSERT INTO product (name, quantity, price,sku, category_id) VALUES (?, ?, ?, ?,?)",
+            (name, int(quantity), float(price), sku, category_id),
         )
         conn.commit()
         conn.close()
@@ -247,6 +251,7 @@ class CreateProductPage(QWidget):
         self.name_input.clear()
         self.quantity_input.clear()
         self.price_input.clear()
+        self.sku_input.clear()
 
 
 class ListProductPage(QWidget):

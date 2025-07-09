@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 
+from PyQt6.QtGui import QPalette
 from PyQt6.QtWidgets import (
     QApplication,
     QDateEdit,
@@ -44,7 +45,7 @@ class MainApp(QWidget):
         self.initUi()
 
     def initUi(self):
-
+        self.setStyleSheet("background-color:#2F2F2F;")
         self.setWindowTitle("TATT BON ET RAPPORT")
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(30, 5, 30, 50)
