@@ -39,6 +39,8 @@ ENV/
 
 #database sqlite
 *.db
+main.db
+*.xlsx
 
 # Miscellaneous
 *.DS_Store
