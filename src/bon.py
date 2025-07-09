@@ -5,24 +5,11 @@ from decimal import Decimal
 import openpyxl
 from openpyxl.workbook import workbook
 from PyQt6.QtCore import QDate, QStringListModel
-from PyQt6.QtWidgets import (
-    QApplication,
-    QCompleter,
-    QDateEdit,
-    QFrame,
-    QHBoxLayout,
-    QLineEdit,
-    QListWidget,
-    QMessageBox,
-    QPushButton,
-    QSizePolicy,
-    QSpinBox,
-    QStackedWidget,
-    QTableWidget,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt6.QtWidgets import (QApplication, QCompleter, QDateEdit, QFrame,
+                             QHBoxLayout, QLineEdit, QListWidget, QMessageBox,
+                             QPushButton, QSizePolicy, QSpinBox,
+                             QStackedWidget, QTableWidget, QTableWidgetItem,
+                             QVBoxLayout, QWidget)
 
 from database import get_rapport_dactivity
 from wte import create_rapport
@@ -36,6 +23,7 @@ class CreatePage(QWidget):
         self.load_database()
         self.load_products()
         self.load_products()
+        self.load_sku()
         self.load_matricule()
         self.load_tp()
         self.load_bon_list()
