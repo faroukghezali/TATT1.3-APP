@@ -2,4 +2,7 @@
 # fix price quantity 
 # add tp as id instead of matricule
 # delete bon 
-# modefied 
+# modefied product
+# RAPORT TABLE 
+
+
