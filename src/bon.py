@@ -174,15 +174,13 @@ class CreatePage(QWidget):
         header = ("id", "product_name", "product_quantity", "product_price", "bus_id")
         value = self.table_widget.item(row, col).text()
         article_id = self.table_widget.item(row, 0).text()
-        print(header[int(col)])
         try:
             with sqlite3.connect("main.db") as conn:
                 cursor = conn.cursor()
                 if col != 0:
                     cursor.execute(
-                        f"UPDATE article_bon SET  {header[col]} = ? where id = ?",
+                        f"DELETE FROM article_bon  WHERE id = ?",
                         (
-                            value,
                             article_id,
                         ),
                     )

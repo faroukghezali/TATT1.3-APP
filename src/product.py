@@ -284,13 +284,13 @@ class ListProductPage(QWidget):
         conn = sqlite3.connect("main.db")
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT product.name,product.quantity,product.price,category.name\
+            "SELECT product.name,product.quantity,product.price,category.name,product.id\
                         FROM product JOIN category ON category.id = product.category_id;"
         )
         products = cursor.fetchall()
         for product in products:
             self.product_list.addItem(
-                f"{product[0]} - {product[1]} - {product[2]} - {product[3]}"
+                f"{product[4]} - {product[0]} - {product[1]} - {product[2]} - {product[3]}"
             )
         conn.close()
 
@@ -312,7 +312,9 @@ class ListProductPage(QWidget):
             )
 
     def switch_to_update(self):
+        print("switch to update")
         if hasattr(self, "selected_id"):
+            print("has att inside",self.selected_id)
             self.switch_to_update_callback(self.selected_id)
         else:
             QMessageBox.warning(
@@ -341,6 +343,10 @@ class UpdateProductPage(QWidget):
         self.price_input = QLineEdit(self)
         self.price_input.setPlaceholderText("Price")
         layout.addWidget(self.price_input)
+
+        self.sku_input = QLineEdit(self)
+        self.sku_input.setPlaceholderText("Product SKU")
+        layout.addWidget(self.sku_input)
 
         self.category_combo = QComboBox(self)
         layout.addWidget(self.category_combo)
@@ -371,13 +377,15 @@ class UpdateProductPage(QWidget):
         cursor.execute("SELECT * FROM product WHERE id=?", (product_id,))
         product = cursor.fetchone()
         conn.close()
+        print(f"the loaded product is {product}")
 
         if product:
             self.name_input.setText(product[1])  # Set product name
             self.quantity_input.setText(str(product[2]))  # Set quantity
             self.price_input.setText(str(product[3]))  # Set price
+            self.sku_input.setText(str(product[4]))  # Set price
             self.category_combo.setCurrentIndex(
-                self.category_combo.findData(product[4])
+                self.category_combo.findData(product[5])
             )  # Set category
 
     def update_product(self):
