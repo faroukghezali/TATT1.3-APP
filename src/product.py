@@ -394,13 +394,14 @@ class UpdateProductPage(QWidget):
             quantity = self.quantity_input.text()
             price = self.price_input.text()
             category_id = self.category_combo.currentData()
+            sku = self.sku_input.text()
 
             if name and quantity.isdigit() and price.replace(".", "", 1).isdigit():
                 conn = sqlite3.connect("main.db")
                 cursor = conn.cursor()
                 cursor.execute(
-                    "UPDATE product SET name=?, quantity=?, price=?, category_id=? WHERE id=?",
-                    (name, int(quantity), float(price), category_id, self.selected_id),
+                    "UPDATE product SET name=?, quantity=?, price=?,sku=?, category_id=? WHERE id=?",
+                    (name, int(quantity), float(price),sku, category_id, self.selected_id),
                 )
                 conn.commit()
                 conn.close()
